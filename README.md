@@ -1,4 +1,4 @@
-# test-modal
+# test-project
 
 ## Project setup
 ```

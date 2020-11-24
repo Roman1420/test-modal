@@ -2,9 +2,11 @@
   <div class="products">
     <div class="btn btn-close" @click="closeModal"></div>
     <div class="header">
-      <div class="header__img" :style="{backgroundImage: 'url(/img/' + product_type.key + '.svg)'}"></div>
+      <div class="header__img" :style="{backgroundImage: 'url(/img/icon-' + product_type + '.svg)'}"></div>
       <div class="header__info">
-        <div class="title">{{product_type.name}}</div>
+        <div class="title" v-if="product_type === 1">Марихуана</div>
+        <div class="title" v-if="product_type === 2">Кокаин</div>
+        <div class="title" v-if="product_type === 3">Метамфитамин</div>
         <div class="desc">Покупка свертков</div>
       </div>
     </div>
@@ -14,7 +16,6 @@
         :min="min_count"
         :max="max_count"
         step="1"
-        value
         v-model.number="current_count">
       </range-slider>
       <div class="input-wrap__info">
@@ -36,23 +37,18 @@ import 'vue-range-slider/dist/vue-range-slider.css'
 export default {
   name: 'Products',
   props: {
-    closeModal: Function
+    closeModal: Function,
+    cost: Number,
+    current_count: Number,
+    min_count: Number,
+    max_count: Number,
+    product_type: Number
+
   },
   components: {
     RangeSlider
   },
-  data: function() {
-    return {
-      cost: 50,
-      current_count: 5,
-      min_count: 1,
-      max_count: 10,
-      product_type: {
-        name: 'Марихуана',
-        key: 'marijuana'
-      }
-    }
-  },
+
   
   methods: {
     buyProduct: function(count) {
@@ -118,7 +114,6 @@ export default {
       background-size: contain;
       background-position: center;
       justify-content: center;
-      filter: drop-shadow(0px 0px 15px rgba(89, 175, 255, 0.75));
     }
     &__info{
       display: flex;
@@ -151,7 +146,6 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 8px;
       .value{
         font-size: 14px;
         line-height: 17px;

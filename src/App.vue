@@ -1,8 +1,18 @@
 <template>
   <div id="app">
-    <component 
-      :is="currentPage"
+    <products 
+      v-if="products.show"
       :closeModal="closeModal"
+      :product_type="products.product_type"
+      :cost="products.cost"
+      :min_count="products.min_count"
+      :max_count="products.max_count"
+    />
+    <positions 
+      v-if="positions.show"
+      :closeModal="closeModal"
+      :cost="positions.cost"
+      :count="positions.count"
     />
   </div>
 </template>
@@ -10,7 +20,9 @@
 <script>
 import Products from './components/Products.vue'
 import Positions from './components/Positions.vue'
-
+import Vue from 'vue'
+const bus = new Vue()
+window.$bus = bus
 export default {
   name: 'App',
   components: {
@@ -19,18 +31,45 @@ export default {
   },
   data: function() {
     return {
-      currentPage: 'Products'
+      products: {
+        show: false,
+        product_type: null,
+        cost: null,
+        min_count: null,
+        max_count: null
+      },
+      positions: {
+        show: false,
+        cost: null,
+        count: null,
+      }
     }
   },
   methods: {
-    setCurrentPage: function(page) {
-      this.currentPage = page
+    ShowProducts: function( show, product_type, cost, min_count, max_count) {
+      this.products.show = show
+      this.products.product_type = product_type
+      this.products.cost = cost
+      this.products.min_count = min_count
+      this.products.max_count = max_count
+      return
+    },
+    ShowPositions: function( show, cost, count ) {
+      this.positions.show = show
+      this.positions.cost = cost
+      this.positions.count = count
     },
     closeModal: function() {
       // window.mp.trigger( "UI.DrugSeller.Close" )
       console.log('window.mp.trigger( "UI.DrugSeller.Close" )')
     },
-  }
+  },
+  created() {
+    bus.$on("ShowProducts", this.ShowProducts);
+  },
+  destroyed() {
+    bus.$off("ShowProducts", this.ShowProducts);
+  },
 }
 </script>
 

@@ -15,13 +15,9 @@
 export default {
   name: 'Positions',
   props: {
-    closeModal: Function
-  },
-  data: function() {
-    return {
-      cost: 1000,
-      count: 10,
-    }
+    closeModal: Function,
+    cost: Number,
+    count: Number
   },
   
   methods: {
