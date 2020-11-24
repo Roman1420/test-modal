@@ -39,7 +39,6 @@ export default {
   props: {
     closeModal: Function,
     cost: Number,
-    current_count: Number,
     min_count: Number,
     max_count: Number,
     product_type: Number
@@ -48,8 +47,11 @@ export default {
   components: {
     RangeSlider
   },
-
-  
+  data: function() {
+    return{
+      current_count: 1
+    }
+  },
   methods: {
     buyProduct: function(count) {
       // mp.trigger( "UI.DrugSeller.BuyProducts", count )
